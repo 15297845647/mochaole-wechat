@@ -12,6 +12,13 @@
       <view class="message message-system" wx:if="{{item.sender === 'system'}}">
         <view class="bubble system">{{item.content}}</view>
       </view>
+      <view class="message message-result" wx:if="{{item.sender === 'result'}}">
+        <view class="bubble result">
+          <view class="result-title">🧑‍⚖️ 判决结果</view>
+          <view class="result-winner">{{item.winner}}</view>
+          <view class="result-reason">{{item.reason}}</view>
+        </view>
+      </view>
     </block>
     <view id="bottom"></view>
   </scroll-view>
@@ -19,5 +26,9 @@
   <view class="input-area">
     <input class="chat-input" placeholder="输入你的观点..." value="{{inputText}}" bindinput="onInput" bindconfirm="sendMessage"/>
     <button class="send-btn" bindtap="sendMessage">发送</button>
+  </view>
+
+  <view class="end-btn" bindtap="endDebate">
+    <text>结束争吵 👉 判官裁决</text>
   </view>
 </view>

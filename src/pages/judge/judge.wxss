@@ -8,6 +8,7 @@
 .chat-area {
   flex: 1;
   padding: 16px;
+  padding-bottom: 10px;
 }
 
 .message {
@@ -33,6 +34,39 @@
   color: #888;
   font-size: 13px;
   text-align: center;
+}
+
+.message-result {
+  justify-content: center;
+}
+
+.message-result .bubble {
+  background: linear-gradient(135deg, #333, #1A1A1A);
+  border: 2px solid #D4AF37;
+  border-radius: 16px;
+}
+
+.result-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #D4AF37;
+  text-align: center;
+  margin-bottom: 12px;
+}
+
+.result-winner {
+  font-size: 20px;
+  font-weight: 700;
+  color: #4CAF50;
+  text-align: center;
+  margin-bottom: 12px;
+}
+
+.result-reason {
+  font-size: 14px;
+  color: #ccc;
+  line-height: 1.6;
+  text-align: left;
 }
 
 .avatar {
@@ -105,4 +139,16 @@
   font-weight: 600;
   margin-left: 12px;
   line-height: 40px;
+}
+
+.end-btn {
+  background: linear-gradient(135deg, #8B0000, #C41E3A);
+  padding: 14px;
+  text-align: center;
+}
+
+.end-btn text {
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
 }
