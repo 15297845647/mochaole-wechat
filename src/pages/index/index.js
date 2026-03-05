@@ -1,7 +1,13 @@
 Page({
   startDebate: function() {
     wx.navigateTo({
-      url: '/pages/judge/judge'
+      url: '/pages/judge/judge?mode=debate'
+    });
+  },
+
+  goToMode: function() {
+    wx.navigateTo({
+      url: '/pages/judge/judge?mode=mode'
     });
   },
 
@@ -14,6 +20,12 @@ Page({
   goToHistory: function() {
     wx.navigateTo({
       url: '/pages/judge/judge?mode=history'
+    });
+  },
+
+  goToWatch: function() {
+    wx.navigateTo({
+      url: '/pages/judge/judge?mode=watch'
     });
   }
 });

@@ -35,6 +35,13 @@ Page({
       this.setData({ page: 'history' });
     } else if (mode === 'watch') {
       this.setData({ page: 'watch' });
+    } else if (mode === 'mode') {
+      this.setData({ page: 'mode' });
+    } else if (mode === 'debate') {
+      this.setData({ page: 'chat' });
+      this.startDebate();
+    } else if (mode === 'register') {
+      this.setData({ page: 'register' });
     } else {
       // 默认显示首页
       this.setData({ page: 'index' });
