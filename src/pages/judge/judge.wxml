@@ -23,12 +23,12 @@
     <view id="bottom"></view>
   </scroll-view>
 
-  <view class="input-area" wx:if="{{!showEndConfirm}}">
+  <view class="input-area">
     <input class="chat-input" placeholder="输入你的观点..." value="{{inputText}}" bindinput="onInput" bindconfirm="sendMessage"/>
     <button class="send-btn" bindtap="sendMessage">发送</button>
   </view>
 
-  <view class="end-panel" wx:if="{{showEndConfirm}}">
+  <view class="end-panel">
     <view class="end-status" wx:if="{{!bothAgreed}}">
       <view class="end-status-text" wx:if="{{!partyAEnded}}">
         点击下方按钮提议结束
