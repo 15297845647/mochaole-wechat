@@ -1,14 +1,184 @@
 .container {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
+  min-height: 100vh;
   background: #1A1A1A;
+  padding: 20px;
+  box-sizing: border-box;
 }
 
-.chat-area {
+.header {
+  text-align: center;
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+.logo {
+  font-size: 72px;
+}
+
+.title {
+  font-size: 32px;
+  font-weight: 700;
+  color: #D4AF37;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: #666;
+  margin-top: 8px;
+}
+
+.main-btn {
+  background: linear-gradient(135deg, #8B0000, #C41E3A);
+  border-radius: 20px;
+  padding: 30px;
+  text-align: center;
+  margin-bottom: 24px;
+  border: 2px solid #D4AF37;
+}
+
+.main-btn-icon {
+  font-size: 48px;
+}
+
+.main-btn-text {
+  font-size: 24px;
+  font-weight: 700;
+  color: #fff;
+  margin-top: 8px;
+}
+
+.main-btn-desc {
+  font-size: 13px;
+  color: rgba(255,255,255,0.7);
+  margin-top: 8px;
+}
+
+.sub-buttons {
+  display: flex;
+  gap: 16px;
+}
+
+.sub-btn {
   flex: 1;
+  background: #333;
+  border-radius: 16px;
+  padding: 20px;
+  text-align: center;
+}
+
+.sub-btn-icon {
+  font-size: 32px;
+  display: block;
+}
+
+.sub-btn-text {
+  font-size: 14px;
+  color: #fff;
+  display: block;
+  margin-top: 8px;
+}
+
+/* 通用 */
+.page-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #D4AF37;
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.btn-primary {
+  width: 100%;
+  height: 50px;
+  background: #D4AF37;
+  border: none;
+  border-radius: 25px;
+  color: #1A1A1A;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 50px;
+  margin-top: 20px;
+}
+
+.btn-secondary {
+  width: 100%;
+  height: 44px;
+  background: #333;
+  border: 1px solid #444;
+  border-radius: 22px;
+  color: #fff;
+  font-size: 15px;
+  margin-top: 12px;
+}
+
+/* 模式选择 */
+.mode-card {
+  display: flex;
+  align-items: center;
+  background: #333;
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 16px;
+  border: 2px solid transparent;
+}
+
+.mode-card.selected {
+  border-color: #D4AF37;
+}
+
+.mode-icon {
+  font-size: 40px;
+  margin-right: 16px;
+}
+
+.mode-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.mode-desc {
+  font-size: 12px;
+  color: #666;
+}
+
+/* 风格选择 */
+.style-list {
+  
+}
+
+.style-card {
+  background: #333;
+  border-radius: 12px;
   padding: 16px;
-  padding-bottom: 10px;
+  margin-bottom: 12px;
+  border: 2px solid transparent;
+}
+
+.style-card.selected {
+  border-color: #D4AF37;
+}
+
+.style-icon {
+  font-size: 28px;
+}
+
+.style-name {
+  font-size: 15px;
+  font-weight: 600;
+  color: #fff;
+  margin-top: 4px;
+}
+
+.style-desc {
+  font-size: 12px;
+  color: #666;
+}
+
+/* 聊天 */
+.chat-area {
+  height: 60vh;
+  padding: 16px;
 }
 
 .message {
@@ -33,39 +203,6 @@
   background: transparent;
   color: #888;
   font-size: 13px;
-  text-align: center;
-}
-
-.message-result {
-  justify-content: center;
-}
-
-.message-result .bubble {
-  background: linear-gradient(135deg, #333, #1A1A1A);
-  border: 2px solid #D4AF37;
-  border-radius: 16px;
-}
-
-.result-title {
-  font-size: 16px;
-  font-weight: 700;
-  color: #D4AF37;
-  text-align: center;
-  margin-bottom: 12px;
-}
-
-.result-winner {
-  font-size: 20px;
-  font-weight: 700;
-  color: #4CAF50;
-  text-align: center;
-  margin-bottom: 12px;
-}
-
-.result-reason {
-  font-size: 14px;
-  color: #ccc;
-  line-height: 1.6;
 }
 
 .avatar {
@@ -96,17 +233,14 @@
   border-radius: 16px;
   font-size: 15px;
   line-height: 1.5;
-  word-break: break-all;
 }
 
 .message-a .bubble {
   background: #333;
-  border-top-left-radius: 4px;
 }
 
 .message-b .bubble {
   background: #8B0000;
-  border-top-right-radius: 4px;
 }
 
 .input-area {
@@ -114,7 +248,6 @@
   align-items: center;
   padding: 12px 16px;
   background: #252525;
-  border-top: 1px solid #333;
 }
 
 .chat-input {
@@ -143,17 +276,13 @@
 .end-panel {
   padding: 16px;
   background: #252525;
-  border-top: 1px solid #333;
-}
-
-.end-status {
   text-align: center;
-  margin-bottom: 12px;
 }
 
 .end-status-text {
   color: #D4AF37;
   font-size: 14px;
+  margin-bottom: 12px;
 }
 
 .end-status-text.waiting {
@@ -169,16 +298,278 @@
   color: #1A1A1A;
   font-size: 15px;
   font-weight: 600;
-  line-height: 44px;
-  margin-bottom: 8px;
-}
-
-.end-btn.agreed {
-  background: #4CAF50;
-  color: #fff;
 }
 
 .end-btn.cancel {
   background: #666;
   color: #fff;
+}
+
+/* 判决结果 */
+.result-page {
+  padding: 20px;
+}
+
+.result-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #D4AF37;
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.winner-card {
+  background: linear-gradient(135deg, #333, #1A1A1A);
+  border-radius: 16px;
+  padding: 24px;
+  text-align: center;
+  border: 2px solid #D4AF37;
+  margin-bottom: 16px;
+}
+
+.winner-label {
+  font-size: 14px;
+  color: #888;
+}
+
+.winner-name {
+  font-size: 28px;
+  font-weight: 700;
+  color: #4CAF50;
+  margin-top: 8px;
+}
+
+.score-card {
+  background: #333;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.score-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #888;
+  margin-bottom: 12px;
+}
+
+.score-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.score-label {
+  width: 80px;
+  font-size: 13px;
+  color: #888;
+}
+
+.score-bar {
+  flex: 1;
+  height: 8px;
+  background: #444;
+  border-radius: 4px;
+}
+
+.score-fill {
+  height: 100%;
+  border-radius: 4px;
+}
+
+.score-fill.good {
+  background: #4CAF50;
+}
+
+.score-fill.medium {
+  background: #FFC107;
+}
+
+.score-fill.poor {
+  background: #F44336;
+}
+
+.reason-card {
+  background: #333;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.reason-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #888;
+  margin-bottom: 8px;
+}
+
+.reason-content {
+  font-size: 14px;
+  color: #ccc;
+  line-height: 1.6;
+}
+
+.highlight {
+  background: linear-gradient(135deg, #8B0000, #C41E3A);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.highlight-label {
+  font-size: 12px;
+  color: rgba(255,255,255,0.7);
+}
+
+.highlight-content {
+  font-size: 15px;
+  color: #fff;
+  margin-top: 4px;
+  font-style: italic;
+}
+
+/* 判官 Dashboard */
+.judge-info {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.judge-avatar {
+  font-size: 64px;
+}
+
+.judge-name {
+  font-size: 20px;
+  font-weight: 600;
+  color: #D4AF37;
+  margin-top: 8px;
+}
+
+.judge-bio {
+  font-size: 13px;
+  color: #666;
+  margin-top: 4px;
+}
+
+.stats-grid {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.stat-card {
+  flex: 1;
+  background: #333;
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+}
+
+.stat-num {
+  font-size: 28px;
+  font-weight: 700;
+  color: #D4AF37;
+}
+
+.stat-label {
+  font-size: 12px;
+  color: #666;
+  margin-top: 4px;
+}
+
+.invite-section {
+  background: linear-gradient(135deg, #8B0000, #C41E3A);
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.invite-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.invite-code {
+  font-size: 28px;
+  font-weight: 700;
+  color: #D4AF37;
+  letter-spacing: 4px;
+  margin-top: 12px;
+  font-family: monospace;
+}
+
+/* 历史记录 */
+.history-list {
+  
+}
+
+.history-item {
+  background: #333;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 12px;
+}
+
+.history-winner {
+  font-size: 16px;
+  font-weight: 600;
+  color: #4CAF50;
+}
+
+.history-date {
+  font-size: 12px;
+  color: #666;
+  margin-top: 4px;
+}
+
+.empty {
+  text-align: center;
+  padding: 60px 0;
+  color: #666;
+}
+
+/* 注册 */
+.form-item {
+  margin-bottom: 20px;
+}
+
+.label {
+  font-size: 14px;
+  color: #888;
+  margin-bottom: 8px;
+}
+
+.input {
+  width: 100%;
+  height: 48px;
+  background: #333;
+  border-radius: 12px;
+  padding: 0 16px;
+  color: #fff;
+  font-size: 15px;
+  box-sizing: border-box;
+}
+
+.avatar-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.avatar-item {
+  width: 50px;
+  height: 50px;
+  background: #333;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  border: 2px solid transparent;
+}
+
+.avatar-item.selected {
+  border-color: #D4AF37;
 }

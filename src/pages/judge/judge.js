@@ -1,50 +1,114 @@
+var app = getApp();
+
 Page({
   data: {
+    page: 'index',
+    mode: 'anonymous',
+    style: 'neutral',
     messages: [],
     inputText: '',
     scrollIntoView: '',
-    showEndConfirm: true,
     partyAEnded: false,
     partyBEnded: false,
-    bothAgreed: false,
-    debateId: ''
+    inviteCode: '',
+    currentJudge: null,
+    currentCases: [],
+    history: [],
+    avatars: ['⚖️', '🔥', '🕊️', '📊', '😄', '👑', '🎭', '💪'],
+    selectedAvatar: '⚖️',
+    result: null
   },
 
   onLoad: function(options) {
-    if (options.mode === 'debate') {
-      this.startDebate();
-    } else if (options.mode === 'register') {
-      this.showRegisterPage();
+    this.loadCurrentJudge();
+    this.loadHistory();
+    
+    // 根据参数跳转到对应页面
+    if (options.mode === 'judge') {
+      this.goToJudge();
     } else if (options.mode === 'history') {
-      this.showHistoryPage();
+      this.goToHistory();
     }
   },
 
+  loadCurrentJudge: function() {
+    var judge = wx.getStorageSync('current_judge');
+    if (judge) {
+      this.setData({ currentJudge: judge });
+    }
+  },
+
+  loadHistory: function() {
+    var history = wx.getStorageSync('debate_history') || [];
+    history = history.map(function(item) {
+      var date = new Date(item.date);
+      item.date = (date.getMonth() + 1) + '-' + date.getDate() + ' ' + date.getHours() + ':' + date.getMinutes();
+      return item;
+    });
+    this.setData({ history: history });
+  },
+
+  // 首页导航
+  goToMode: function() {
+    this.setData({ page: 'mode' });
+  },
+
+  goToJudge: function() {
+    var judge = this.data.currentJudge;
+    if (judge) {
+      var cases = wx.getStorageSync('judge_cases_' + judge.id) || [];
+      this.setData({ page: 'judge', currentCases: cases });
+    } else {
+      this.setData({ page: 'register' });
+    }
+  },
+
+  goToHistory: function() {
+    this.setData({ page: 'history' });
+  },
+
+  // 模式选择
+  selectMode: function(e) {
+    this.setData({ mode: e.currentTarget.dataset.mode });
+  },
+
+  goToStyle: function() {
+    this.setData({ page: 'style' });
+  },
+
+  // 风格选择
+  selectStyle: function(e) {
+    this.setData({ style: e.currentTarget.dataset.style });
+  },
+
+  // 开始对喷
   startDebate: function() {
-    var debateId = 'debate_' + Date.now();
+    var messages = [{
+      id: 0,
+      sender: 'system',
+      content: '欢迎来到莫吵了！模式: ' + (this.data.mode === 'anonymous' ? '匿名' : '实名') + ' | 判官风格: ' + this.getStyleName(this.data.style)
+    }];
     this.setData({
-      messages: [{
-        id: 0,
-        sender: 'system',
-        content: '欢迎来到莫吵了！双方可随时点击"我要结束"，双方都同意后将显示判官裁决。'
-      }],
-      showEndConfirm: true,
-      debateId: debateId
+      page: 'chat',
+      messages: messages,
+      partyAEnded: false,
+      partyBEnded: false,
+      inputText: ''
     });
   },
 
-  showRegisterPage: function() {
-    wx.redirectTo({
-      url: '/pages/register/register'
-    });
+  getStyleName: function(style) {
+    var names = {
+      neutral: '中立判官',
+      sarcastic: '毒舌判官',
+      peacemaker: '和事佬',
+      rational: '理性分析帝',
+      humor: '欢乐判官'
+    };
+    return names[style] || '中立判官';
   },
 
-  showHistoryPage: function() {
-    wx.redirectTo({
-      url: '/pages/history/history'
-    });
-  },
-
+  // 聊天
   onInput: function(e) {
     this.setData({ inputText: e.detail.value });
   },
@@ -66,24 +130,23 @@ Page({
     });
 
     var that = this;
+    var replies = [
+      '你这个人怎么这样？',
+      '明明是你不对！',
+      '我不同意你的观点！',
+      '你有没有搞错？',
+      '那又怎么样？',
+      '少来这套！',
+      '凭什么这么说？'
+    ];
+    var reply = replies[Math.floor(Math.random() * replies.length)];
+    
     setTimeout(function() {
-      var replies = [
-        '你这个人怎么这样？',
-        '明明是你不对！',
-        '我不同意你的观点！',
-        '你有没有搞错？',
-        '那又怎么样？',
-        '少来这套！',
-        '凭什么这么说？'
-      ];
-      var reply = replies[Math.floor(Math.random() * replies.length)];
-      
       var newMessages = that.data.messages.concat([{
         id: Date.now() + 1,
         sender: 'partyB',
         content: reply
       }]);
-      
       that.setData({
         messages: newMessages,
         scrollIntoView: 'bottom'
@@ -91,6 +154,7 @@ Page({
     }, 1000 + Math.random() * 1000);
   },
 
+  // 结束
   requestEnd: function() {
     var messages = this.data.messages.concat([{
       id: Date.now(),
@@ -115,7 +179,6 @@ Page({
       that.setData({
         messages: newMessages,
         partyBEnded: true,
-        bothAgreed: true,
         scrollIntoView: 'bottom'
       });
       
@@ -139,52 +202,113 @@ Page({
     });
   },
 
+  // 判决结果
   showJudgment: function() {
+    var that = this;
     wx.showLoading({ title: '判官裁决中...' });
 
-    var that = this;
     setTimeout(function() {
       wx.hideLoading();
       
       var winners = ['甲方', '乙方'];
       var winner = winners[Math.floor(Math.random() * winners.length)];
       
-      var reasons = [
-        '甲方在论证逻辑上更加清晰，论据充分。乙方虽然情绪激烈，但缺乏有效论据。',
-        '乙方表现更理性，分析问题更全面。甲方有些偏激，需要冷静。',
-        '双方都有道理，但甲方表达更有条理。乙方情绪过于激动，影响了判断。'
-      ];
-      var reason = reasons[Math.floor(Math.random() * reasons.length)];
+      var styles = {
+        neutral: '作为中立判官，我保持公平公正。',
+        sarcastic: '哎呀，你们这样吵有意思吗？',
+        peacemaker: '都别吵了，各退一步海阔天空。',
+        rational: '让我们理性分析一下...',
+        humor: '哈哈，你们也太搞笑了吧！'
+      };
+      
+      var reason = styles[that.data.style] + ' ' + 
+        (winner === '甲方' ? '甲方在论证逻辑上更加清晰，论据充分。' : '乙方表现更理性，分析问题更全面。');
 
       var result = {
-        id: Date.now() + 2,
-        sender: 'result',
-        winner: '👑 胜者: ' + winner,
-        reason: reason
+        winner: winner,
+        reason: reason,
+        scores: [
+          { label: '逻辑性', value: 70 + Math.floor(Math.random() * 30), score: 'good' },
+          { label: '情感控制', value: 50 + Math.floor(Math.random() * 30), score: 'medium' },
+          { label: '论据充分', value: 60 + Math.floor(Math.random() * 30), score: 'good' },
+          { label: '表达清晰', value: 65 + Math.floor(Math.random() * 30), score: 'good' },
+          { label: '辩论技巧', value: 55 + Math.floor(Math.random() * 30), score: 'medium' },
+          { label: '双赢可能', value: 40 + Math.floor(Math.random() * 30), score: 'poor' }
+        ],
+        highlight: winner === '甲方' ? '甲方：其实我们没必要吵' : '乙方：好吧，你说得对'
       };
 
-      var newMessages = that.data.messages.concat([result]);
-
       that.setData({
-        messages: newMessages,
-        scrollIntoView: 'bottom'
+        page: 'result',
+        result: result
       });
 
-      // 保存到历史记录
-      that.saveToHistory(winner, reason);
+      // 保存历史
+      var history = wx.getStorageSync('debate_history') || [];
+      history.unshift({
+        id: 'debate_' + Date.now(),
+        date: new Date().toISOString(),
+        winner: winner,
+        reason: reason
+      });
+      wx.setStorageSync('debate_history', history);
     }, 1500);
   },
 
-  saveToHistory: function(winner, reason) {
-    var history = wx.getStorageSync('debate_history') || [];
-    var record = {
-      id: this.data.debateId,
-      date: new Date().toISOString(),
-      winner: winner,
-      reason: reason,
-      messageCount: this.data.messages.length
+  // 判官注册
+  onNameInput: function(e) {
+    this.setData({ name: e.detail.value });
+  },
+
+  onBioInput: function(e) {
+    this.setData({ bio: e.detail.value });
+  },
+
+  selectAvatar: function(e) {
+    this.setData({ selectedAvatar: e.currentTarget.dataset.avatar });
+  },
+
+  registerJudge: function() {
+    if (!this.data.name) {
+      wx.showToast({ title: '请输入昵称', icon: 'none' });
+      return;
+    }
+
+    var judge = {
+      id: 'judge_' + Date.now(),
+      name: this.data.name,
+      avatar: this.data.selectedAvatar,
+      bio: this.data.bio || '专注裁决三十年',
+      createdAt: new Date().toISOString(),
+      totalCases: 0
     };
-    history.unshift(record);
-    wx.setStorageSync('debate_history', history);
+
+    wx.setStorageSync('current_judge', judge);
+    
+    wx.showToast({ title: '注册成功！', icon: 'success' });
+
+    var that = this;
+    setTimeout(function() {
+      that.setData({
+        page: 'judge',
+        currentJudge: judge,
+        currentCases: []
+      });
+    }, 1500);
+  },
+
+  // 邀请码
+  generateInvite: function() {
+    var chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+    var code = '';
+    for (var i = 0; i < 6; i++) {
+      code += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    this.setData({ inviteCode: code });
+  },
+
+  // 返回首页
+  backToHome: function() {
+    this.setData({ page: 'index', result: null, messages: [] });
   }
 });

@@ -1,28 +1,22 @@
 <view class="container">
-  <!-- 顶部装饰 -->
-  <view class="top-decoration"></view>
-  
-  <!-- Logo 和标题 -->
   <view class="header">
     <view class="logo">🐱</view>
     <view class="title">莫吵了</view>
     <view class="subtitle">让你的架白吵</view>
   </view>
 
-  <!-- 主功能按钮 -->
   <view class="main-btn" bindtap="startDebate">
     <view class="main-btn-icon">💬</view>
     <view class="main-btn-text">开始对喷</view>
     <view class="main-btn-desc">两人对战，AI判官裁决</view>
   </view>
 
-  <!-- 次要功能 -->
   <view class="sub-buttons">
-    <view class="sub-btn" bindtap="becomeJudge">
+    <view class="sub-btn" bindtap="goToJudge">
       <text class="sub-btn-icon">🧑‍⚖️</text>
-      <text class="sub-btn-text">成为判官</text>
+      <text class="sub-btn-text">判官入口</text>
     </view>
-    <view class="sub-btn" bindtap="viewHistory">
+    <view class="sub-btn" bindtap="goToHistory">
       <text class="sub-btn-icon">📜</text>
       <text class="sub-btn-text">历史记录</text>
     </view>

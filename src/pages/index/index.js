@@ -1,21 +1,19 @@
 Page({
   startDebate: function() {
     wx.navigateTo({
-      url: '/pages/judge/judge?mode=debate'
+      url: '/pages/judge/judge'
     });
   },
 
-  becomeJudge: function() {
-    wx.showToast({
-      title: '功能开发中',
-      icon: 'none'
+  goToJudge: function() {
+    wx.navigateTo({
+      url: '/pages/judge/judge?mode=judge'
     });
   },
 
-  viewHistory: function() {
-    wx.showToast({
-      title: '功能开发中',
-      icon: 'none'
+  goToHistory: function() {
+    wx.navigateTo({
+      url: '/pages/judge/judge?mode=history'
     });
   }
 });
