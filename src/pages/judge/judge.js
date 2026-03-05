@@ -24,6 +24,18 @@ Page({
     this.loadCurrentJudge();
     this.loadHistory();
     this.loadWatchingDebate();
+    
+    // 根据参数跳转到对应页面
+    if (options.mode === 'judge') {
+      this.goToJudge();
+    } else if (options.mode === 'history') {
+      this.goToHistory();
+    } else if (options.mode === 'watch') {
+      this.goToWatch();
+    } else {
+      // 默认显示首页
+      this.setData({ page: 'index' });
+    }
   },
 
   loadCurrentJudge: function() {
