@@ -1,0 +1,61 @@
+.container {
+  padding: 20px;
+  background: #1A1A1A;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #D4AF37;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.empty {
+  text-align: center;
+  padding: 60px 0;
+  color: #666;
+}
+
+.list {
+  
+}
+
+.item {
+  background: #333;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 12px;
+}
+
+.item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.winner {
+  font-size: 16px;
+  font-weight: 600;
+  color: #4CAF50;
+}
+
+.date {
+  font-size: 12px;
+  color: #666;
+}
+
+.reason {
+  font-size: 14px;
+  color: #ccc;
+  line-height: 1.5;
+  margin-bottom: 8px;
+}
+
+.message-count {
+  font-size: 12px;
+  color: #666;
+}

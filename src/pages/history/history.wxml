@@ -1,0 +1,18 @@
+<view class="container">
+  <view class="title">历史记录</view>
+
+  <view wx:if="{{history.length === 0}}" class="empty">
+    <text>暂无历史记录</text>
+  </view>
+
+  <view class="list" wx:else>
+    <view class="item" wx:for="{{history}}" wx:key="id">
+      <view class="item-header">
+        <view class="winner">{{item.winner}}</view>
+        <view class="date">{{item.date}}</view>
+      </view>
+      <view class="reason">{{item.reason}}</view>
+      <view class="message-count">{{item.messageCount}} 条对话</view>
+    </view>
+  </view>
+</view>

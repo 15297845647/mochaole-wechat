@@ -1,0 +1,27 @@
+<view class="container">
+  <view class="title">成为判官</view>
+  <view class="subtitle">注册成为莫吵了的判官</view>
+
+  <view class="form">
+    <view class="form-item">
+      <view class="label">昵称</view>
+      <input class="input" placeholder="输入你的昵称" bindinput="onNameInput" value="{{name}}"/>
+    </view>
+
+    <view class="form-item">
+      <view class="label">头像</view>
+      <view class="avatar-list">
+        <view class="avatar-item {{selectedAvatar === item ? 'selected' : ''}}" wx:for="{{avatars}}" wx:key="*this" bindtap="selectAvatar" data-avatar="{{item}}">
+          {{item}}
+        </view>
+      </view>
+    </view>
+
+    <view class="form-item">
+      <view class="label">简介</view>
+      <textarea class="textarea" placeholder="一句话介绍自己" bindinput="onBioInput" value="{{bio}}"/>
+    </view>
+
+    <button class="btn-primary" bindtap="register">注册成为判官</button>
+  </view>
+</view>
