@@ -17,7 +17,9 @@ Page({
     avatars: ['⚖️', '🔥', '🕊️', '📊', '😄', '👑', '🎭', '💪'],
     selectedAvatar: '⚖️',
     result: null,
-    isWatching: false
+    isWatching: false,
+    selectedRecord: null,
+    watchingDebates: []
   },
 
   onLoad: function(options) {
@@ -53,6 +55,23 @@ Page({
       return item;
     });
     this.setData({ history: history });
+  },
+
+  // 查看历史记录详情
+  viewRecord: function(e) {
+    var id = e.currentTarget.dataset.id;
+    var history = this.data.history;
+    var record = history.find(function(item) {
+      return item.id === id;
+    });
+    if (record) {
+      this.setData({ selectedRecord: record });
+    }
+  },
+
+  // 关闭详情
+  closeRecord: function() {
+    this.setData({ selectedRecord: null });
   },
 
   // 首页导航
@@ -314,14 +333,22 @@ Page({
         scrollIntoView: 'bottom'
       });
 
-      // 保存历史
+      // 保存历史 - 完整记录
       var history = wx.getStorageSync('debate_history') || [];
       history.unshift({
         id: that.data.debateId,
         date: new Date().toISOString(),
         winner: winner,
         reason: reason,
-        messageCount: that.data.messages.length
+        mode: that.data.mode,
+        style: that.data.style,
+        messageCount: that.data.messages.length,
+        messages: that.data.messages.filter(function(m) {
+          return m.sender === 'partyA' || m.sender === 'partyB';
+        }),
+        scores: result.scores,
+        highlight: result.highlight,
+        randomEvent: result.randomEvent
       });
       wx.setStorageSync('debate_history', history);
       
@@ -475,6 +502,6 @@ Page({
 
   // 返回首页
   backToHome: function() {
-    this.setData({ page: 'index', result: null, messages: [] });
+    this.setData({ page: 'index', result: null, messages: [], selectedRecord: null });
   }
 });

@@ -1,301 +1,88 @@
 <view class="container">
-  <!-- 首页 -->
-  <view wx:if="{{page === 'index'}}">
-    <view class="header">
-      <view class="logo">🐱</view>
-      <view class="title">莫吵了</view>
-      <view class="subtitle">让你的架白吵</view>
-    </view>
-
-    <view class="main-btn" bindtap="goToMode">
-      <view class="main-btn-icon">💬</view>
-      <view class="main-btn-text">开始对喷</view>
-      <view class="main-btn-desc">两人对战，AI判官裁决</view>
-    </view>
-
-    <view class="sub-buttons">
-      <view class="sub-btn" bindtap="goToJudge">
-        <text class="sub-btn-icon">🧑‍⚖️</text>
-        <text class="sub-btn-text">判官入口</text>
-      </view>
-      <view class="sub-btn" bindtap="goToWatch">
-        <text class="sub-btn-icon">👁️</text>
-        <text class="sub-btn-text">实时观战</text>
-      </view>
-    </view>
-
-    <view class="third-btn" bindtap="goToHistory">
-      <text>📜 历史记录</text>
-    </view>
-  </view>
-
-  <!-- 模式选择 -->
-  <view wx:if="{{page === 'mode'}}">
-    <view class="page-title">选择模式</view>
-    
-    <view class="mode-card {{mode === 'anonymous' ? 'selected' : ''}}" bindtap="selectMode" data-mode="anonymous">
-      <view class="mode-icon">🎭</view>
-      <view class="mode-info">
-        <view class="mode-name">匿名模式</view>
-        <view class="mode-desc">双方匿名，只看论点</view>
-      </view>
-    </view>
-
-    <view class="mode-card {{mode === 'realname' ? 'selected' : ''}}" bindtap="selectMode" data-mode="realname">
-      <view class="mode-icon">📛</view>
-      <view class="mode-info">
-        <view class="mode-name">实名模式</view>
-        <view class="mode-desc">显示双方昵称</view>
-      </view>
-    </view>
-
-    <button class="btn-primary" bindtap="goToStyle">下一步</button>
-  </view>
-
-  <!-- 风格选择 -->
-  <view wx:if="{{page === 'style'}}">
-    <view class="page-title">选择判官风格</view>
-    
-    <view class="style-list">
-      <view class="style-card {{style === 'neutral' ? 'selected' : ''}}" bindtap="selectStyle" data-style="neutral">
-        <view class="style-icon">⚖️</view>
-        <view class="style-name">中立判官</view>
-        <view class="style-desc">公平公正，不偏不倚</view>
-      </view>
-      <view class="style-card {{style === 'sarcastic' ? 'selected' : ''}}" bindtap="selectStyle" data-style="sarcastic">
-        <view class="style-icon">🔥</view>
-        <view class="style-name">毒舌判官</view>
-        <view class="style-desc">犀利吐槽，直击要害</view>
-      </view>
-      <view class="style-card {{style === 'peacemaker' ? 'selected' : ''}}" bindtap="selectStyle" data-style="peacemaker">
-        <view class="style-icon">🕊️</view>
-        <view class="style-name">和事佬</view>
-        <view class="style-desc">各打五十大板</view>
-      </view>
-      <view class="style-card {{style === 'rational' ? 'selected' : ''}}" bindtap="selectStyle" data-style="rational">
-        <view class="style-icon">📊</view>
-        <view class="style-name">理性分析帝</view>
-        <view class="style-desc">数据党的胜利</view>
-      </view>
-      <view class="style-card {{style === 'humor' ? 'selected' : ''}}" bindtap="selectStyle" data-style="humor">
-        <view class="style-icon">😄</view>
-        <view class="style-name">欢乐判官</view>
-        <view class="style-desc">搞笑担当，乐一乐</view>
-      </view>
-    </view>
-
-    <button class="btn-primary" bindtap="startDebate">开始对喷</button>
-  </view>
-
-  <!-- 聊天页面 -->
-  <view wx:if="{{page === 'chat'}}">
-    <scroll-view class="chat-area" scroll-y="true" scroll-into-view="{{scrollIntoView}}">
-      <block wx:for="{{messages}}" wx:key="id">
-        <view class="message message-a" wx:if="{{item.sender === 'partyA'}}">
-          <view class="avatar">A</view>
-          <view class="bubble">{{item.content}}</view>
-        </view>
-        <view class="message message-b" wx:if="{{item.sender === 'partyB'}}">
-          <view class="bubble">{{item.content}}</view>
-          <view class="avatar">B</view>
-        </view>
-        <view class="message message-system" wx:if="{{item.sender === 'system'}}">
-          <view class="bubble system">{{item.content}}</view>
-        </view>
-        <view class="message message-judge" wx:if="{{item.sender === 'judge'}}">
-          <view class="bubble judge">🧑‍⚖️ {{item.content}}</view>
-        </view>
-      </block>
-      <view id="bottom"></view>
-    </scroll-view>
-
-    <view class="input-area">
-      <input class="chat-input" placeholder="输入你的观点..." value="{{inputText}}" bindinput="onInput" bindconfirm="sendMessage"/>
-      <button class="send-btn" bindtap="sendMessage">发送</button>
-    </view>
-
-    <view class="end-panel">
-      <view class="end-status-text" wx:if="{{!partyAEnded}}">
-        点击下方按钮提议结束
-      </view>
-      <view class="end-status-text waiting" wx:if="{{partyAEnded && !partyBEnded}}">
-        ⏳ 等待对方同意...
-      </view>
-      <button class="end-btn" bindtap="requestEnd" wx:if="{{!partyAEnded}}">
-        我要结束
-      </button>
-      <button class="end-btn cancel" bindtap="cancelEnd" wx:if="{{partyAEnded && !partyBEnded}}">
-        取消结束
-      </button>
-    </view>
-  </view>
-
-  <!-- 实时观战 -->
-  <view wx:if="{{page === 'watch'}}">
-    <view class="page-title">实时观战</view>
-    
-    <view wx:if="{{!watchingDebates || watchingDebates.length === 0}}" class="empty">
-      <text>暂无正在进行的辩论</text>
-    </view>
-
-    <view class="watch-list" wx:if="{{watchingDebates && watchingDebates.length > 0}}">
-      <view class="watch-item" wx:for="{{watchingDebates}}" wx:key="id" bindtap="watchDebate" data-id="{{item.id}}">
-        <view class="watch-info">
-          <view class="watch-time">{{item.date}}</view>
-          <view class="watch-count">{{item.messages.length}} 条消息</view>
-        </view>
-        <view class="watch-arrow">→</view>
-      </view>
-    </view>
-  </view>
-
-  <!-- 观看中 -->
-  <view wx:if="{{page === 'watching'}}">
-    <view class="watch-header">
-      <button class="back-btn" bindtap="goToWatch">← 返回</button>
-      <text>实时观战</text>
-    </view>
-    
-    <scroll-view class="chat-area" scroll-y="true">
-      <block wx:for="{{currentWatching.messages}}" wx:key="id">
-        <view class="message message-a" wx:if="{{item.sender === 'partyA'}}">
-          <view class="avatar">A</view>
-          <view class="bubble">{{item.content}}</view>
-        </view>
-        <view class="message message-b" wx:if="{{item.sender === 'partyB'}}">
-          <view class="bubble">{{item.content}}</view>
-          <view class="avatar">B</view>
-        </view>
-        <view class="message message-system" wx:if="{{item.sender === 'system' || item.sender === 'judge'}}">
-          <view class="bubble system">{{item.content}}</view>
-        </view>
-      </block>
-    </scroll-view>
-
-    <view class="suggestion-area">
-      <input class="suggestion-input" placeholder="发送判官建议..." bindinput="onSuggestionInput" value="{{suggestionText}}"/>
-      <button class="suggestion-btn" bindtap="sendSuggestion">发送</button>
-    </view>
-  </view>
-
-  <!-- 判决结果 -->
-  <view wx:if="{{page === 'result'}}" class="result-page">
-    <view class="result-title">🧑‍⚖️ 判决结果</view>
-    
-    <!-- 随机事件 -->
-    <view class="random-event" wx:if="{{result.randomEvent}}">
-      <view class="event-icon">📢</view>
-      <view class="event-text">{{result.randomEvent}}</view>
-    </view>
-    
-    <view class="winner-card">
-      <view class="winner-label">胜者</view>
-      <view class="winner-name">{{result.winner}}</view>
-    </view>
-
-    <view class="score-card">
-      <view class="score-title">六维评分</view>
-      <view class="score-item" wx:for="{{result.scores}}" wx:key="label">
-        <view class="score-label">{{item.label}}</view>
-        <view class="score-bar">
-          <view class="score-fill {{item.score}}" style="width: {{item.value}}%"></view>
-        </view>
-        <view class="score-value">{{item.value}}分</view>
-      </view>
-    </view>
-
-    <view class="reason-card">
-      <view class="reason-title">判决理由</view>
-      <view class="reason-content">{{result.reason}}</view>
-    </view>
-
-    <view class="highlight" wx:if="{{result.highlight}}">
-      <view class="highlight-label">金句</view>
-      <view class="highlight-content">{{result.highlight}}</view>
-    </view>
-
-    <button class="btn-share" bindtap="shareResult">📤 分享判决</button>
-    <button class="btn-primary" bindtap="backToHome">返回首页</button>
-  </view>
-
-  <!-- 判官 Dashboard -->
-  <view wx:if="{{page === 'judge'}}">
-    <view class="page-title">判官 Dashboard</view>
-    
-    <view class="judge-info">
-      <view class="judge-avatar">{{currentJudge.avatar}}</view>
-      <view class="judge-name">{{currentJudge.name}}</view>
-      <view class="judge-bio">{{currentJudge.bio}}</view>
-    </view>
-
-    <view class="stats-grid">
-      <view class="stat-card">
-        <view class="stat-num">{{currentJudge.totalCases}}</view>
-        <view class="stat-label">已裁决</view>
-      </view>
-      <view class="stat-card">
-        <view class="stat-num">{{currentCases.length}}</view>
-        <view class="stat-label">待裁决</view>
-      </view>
-    </view>
-
-    <view class="invite-section">
-      <view class="invite-title">🎯 邀请好友来吵</view>
-      <button class="btn-secondary" bindtap="generateInvite">生成邀请码</button>
-      <view wx:if="{{inviteCode}}" class="invite-code">{{inviteCode}}</view>
-    </view>
-
-    <view class="menu-list">
-      <view class="menu-item" bindtap="goToWatch">
-        <text>👁️ 实时观战</text>
-      </view>
-    </view>
-
-    <button class="btn-primary" bindtap="backToHome">返回首页</button>
-  </view>
-
-  <!-- 历史记录 -->
-  <view wx:if="{{page === 'history'}}">
-    <view class="page-title">历史记录</view>
+  <!-- 历史记录列表 -->
+  <view wx:if="{{!selectedRecord}}">
+    <view class="page-title">历史记录 ({{history.length}})</view>
     
     <view wx:if="{{history.length === 0}}" class="empty">
       <text>暂无历史记录</text>
     </view>
 
     <view class="history-list">
-      <view class="history-item" wx:for="{{history}}" wx:key="id">
-        <view class="history-winner">{{item.winner}}</view>
-        <view class="history-reason">{{item.reason}}</view>
-        <view class="history-date">{{item.date}}</view>
+      <view class="history-item" wx:for="{{history}}" wx:key="id" bindtap="viewRecord" data-id="{{item.id}}">
+        <view class="history-header">
+          <view class="history-winner">{{item.winner}}</view>
+          <view class="history-meta">
+            <text class="history-mode">{{item.mode === 'anonymous' ? '匿名' : '实名'}}</text>
+            <text class="history-style">{{item.style}}</text>
+          </view>
+        </view>
+        <view class="history-preview">{{item.reason}}</view>
+        <view class="history-footer">
+          <text>{{item.date}}</text>
+          <text>{{item.messageCount}}条对话</text>
+        </view>
       </view>
     </view>
 
     <button class="btn-primary" bindtap="backToHome">返回首页</button>
   </view>
 
-  <!-- 判官注册 -->
-  <view wx:if="{{page === 'register'}}">
-    <view class="page-title">成为判官</view>
-    
-    <view class="form-item">
-      <view class="label">昵称</view>
-      <input class="input" placeholder="输入判官昵称" bindinput="onNameInput"/>
+  <!-- 历史记录详情 -->
+  <view wx:if="{{selectedRecord}}">
+    <view class="detail-header">
+      <button class="back-btn" bindtap="closeRecord">← 返回</button>
+      <text class="detail-title">吵架详情</text>
     </view>
 
-    <view class="form-item">
-      <view class="label">头像</view>
-      <view class="avatar-list">
-        <view class="avatar-item {{selectedAvatar === item ? 'selected' : ''}}" wx:for="{{avatars}}" wx:key="*this" bindtap="selectAvatar" data-avatar="{{item}}">
-          {{item}}
+    <!-- 吵架过程 -->
+    <scroll-view class="detail-chat" scroll-y="true">
+      <block wx:for="{{selectedRecord.messages}}" wx:key="id">
+        <view class="message message-a" wx:if="{{item.sender === 'partyA'}}">
+          <view class="avatar">A</view>
+          <view class="bubble">{{item.content}}</view>
+        </view>
+        <view class="message message-b" wx:if="{{item.sender === 'partyB'}}">
+          <view class="bubble">{{item.content}}</view>
+          <view class="avatar">B</view>
+        </view>
+      </block>
+    </scroll-view>
+
+    <!-- 判决结果 -->
+    <view class="detail-result">
+      <view class="result-title">🧑‍⚖️ 判决结果</view>
+      
+      <view class="winner-card">
+        <view class="winner-label">胜者</view>
+        <view class="winner-name">{{selectedRecord.winner}}</view>
+      </view>
+
+      <view class="score-card" wx:if="{{selectedRecord.scores}}">
+        <view class="score-title">六维评分</view>
+        <view class="score-item" wx:for="{{selectedRecord.scores}}" wx:key="label">
+          <view class="score-label">{{item.label}}</view>
+          <view class="score-bar">
+            <view class="score-fill {{item.score}}" style="width: {{item.value}}%"></view>
+          </view>
+          <view class="score-value">{{item.value}}分</view>
         </view>
       </view>
-    </view>
 
-    <view class="form-item">
-      <view class="label">简介</view>
-      <input class="input" placeholder="一句话介绍自己" bindinput="onBioInput"/>
-    </view>
+      <view class="reason-card">
+        <view class="reason-title">判决理由</view>
+        <view class="reason-content">{{selectedRecord.reason}}</view>
+      </view>
 
-    <button class="btn-primary" bindtap="registerJudge">注册判官</button>
+      <view class="highlight" wx:if="{{selectedRecord.highlight}}">
+        <view class="highlight-label">金句</view>
+        <view class="highlight-content">{{selectedRecord.highlight}}</view>
+      </view>
+
+      <view class="meta-info">
+        <text>模式: {{selectedRecord.mode === 'anonymous' ? '匿名' : '实名'}}</text>
+        <text>风格: {{selectedRecord.style}}</text>
+        <text>对话: {{selectedRecord.messageCount}}条</text>
+      </view>
+    </view>
   </view>
 </view>
