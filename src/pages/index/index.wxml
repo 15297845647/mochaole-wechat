@@ -1,0 +1,109 @@
+<view class="container">
+  <!-- 顶部装饰 -->
+  <view class="top-decoration"></view>
+  
+  <!-- Logo 和标题 -->
+  <view class="header">
+    <view class="logo">⚖️</view>
+    <view class="title">莫吵了</view>
+    <view class="subtitle">让你的架白吵</view>
+  </view>
+
+  <!-- 功能按钮 -->
+  <view class="buttons">
+    <button class="btn-primary" bindtap="startDebate">开始吵架</button>
+    <button class="btn-secondary" bindtap="becomeJudge">成为判官</button>
+    <button class="btn-secondary" bindtap="viewHistory">历史记录</button>
+  </view>
+
+  <!-- 判官入口 -->
+  <view class="judge-section" bindtap="enterJudgeDashboard">
+    <view class="judge-icon">🧑‍⚖️</view>
+    <view class="judge-text">
+      <view class="judge-title">判官入口</view>
+      <view class="judge-desc">管理你的法庭</view>
+    </view>
+    <view class="arrow">→</view>
+  </view>
+</view>
+
+<style>
+.header {
+  text-align: center;
+  margin-top: 60px;
+  margin-bottom: 40px;
+}
+
+.logo {
+  font-size: 72px;
+  margin-bottom: 16px;
+}
+
+.title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #D4AF37;
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: #666;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 40px;
+}
+
+.buttons button {
+  width: 100%;
+}
+
+.judge-section {
+  display: flex;
+  align-items: center;
+  background: linear-gradient(135deg, #333, #1A1A1A);
+  border-radius: 16px;
+  padding: 20px;
+  border: 2px solid #444;
+}
+
+.judge-icon {
+  font-size: 40px;
+  margin-right: 16px;
+}
+
+.judge-text {
+  flex: 1;
+}
+
+.judge-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.judge-desc {
+  font-size: 12px;
+  color: #666;
+  margin-top: 4px;
+}
+
+.arrow {
+  color: #D4AF37;
+  font-size: 24px;
+}
+
+.top-decoration {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 120px;
+  background: linear-gradient(180deg, #8B0000 0%, transparent 100%);
+  z-index: -1;
+}
+</style>

@@ -1,0 +1,98 @@
+<view class="container">
+  <!-- 模式选择 -->
+  <block wx:if="{{mode === 'select'}}">
+    <view class="page-title">选择模式</view>
+    
+    <view class="mode-card" bindtap="selectMode" data-mode="anonymous">
+      <view class="mode-icon">🎭</view>
+      <view class="mode-info">
+        <view class="mode-name">匿名模式</view>
+        <view class="mode-desc">双方匿名，只看论点</view>
+      </view>
+    </view>
+
+    <view class="mode-card" bindtap="selectMode" data-mode="realname">
+      <view class="mode-icon">📛</view>
+      <view class="mode-info">
+        <view class="mode-name">实名模式</view>
+        <view class="mode-desc">显示双方昵称</view>
+      </view>
+    </view>
+  </block>
+
+  <!-- 吵架输入 -->
+  <block wx:if="{{mode === 'debate' || mode === 'input'}}">
+    <view class="page-title">开始对喷</view>
+    
+    <view class="input-group">
+      <view class="input-label">甲方（你）</view>
+      <textarea class="input-field" placeholder="输入你的观点..." bindinput="onInputA" value="{{partyA}}"/>
+    </view>
+
+    <view class="vs">VS</view>
+
+    <view class="input-group">
+      <view class="input-label">乙方</view>
+      <textarea class="input-field" placeholder="输入对方的观点..." bindinput="onInputB" value="{{partyB}}"/>
+    </view>
+
+    <button class="btn-primary" bindtap="submitDebate">提交判决</button>
+  </block>
+
+  <!-- 判官注册 -->
+  <block wx:if="{{mode === 'register'}}">
+    <view class="page-title">成为判官</view>
+    
+    <view class="form-group">
+      <view class="form-label">昵称</view>
+      <input class="input-field" placeholder="输入判官昵称" bindinput="onNameInput"/>
+    </view>
+
+    <view class="form-group">
+      <view class="form-label">头像</view>
+      <view class="avatar-selector">
+        <view class="avatar-option" wx:for="{{avatarOptions}}" wx:key="*this" bindtap="selectAvatar" data-avatar="{{item}}" style="{{judgeAvatar === item ? 'border-color: #D4AF37' : ''}}">
+          {{item}}
+        </view>
+      </view>
+    </view>
+
+    <view class="form-group">
+      <view class="form-label">简介</view>
+      <textarea class="input-field" placeholder="一句话介绍自己" bindinput="onBioInput"/>
+    </view>
+
+    <button class="btn-primary" bindtap="registerJudge">注册判官</button>
+  </block>
+
+  <!-- 判官 Dashboard -->
+  <block wx:if="{{mode === 'dashboard'}}">
+    <view class="page-title">判官 Dashboard</view>
+    
+    <view class="stats-grid">
+      <view class="stat-card">
+        <view class="stat-num">{{pendingCount}}</view>
+        <view class="stat-label">待裁决</view>
+      </view>
+      <view class="stat-card">
+        <view class="stat-num">{{judgingCount}}</view>
+        <view class="stat-label">裁决中</view>
+      </view>
+      <view class="stat-card">
+        <view class="stat-num">{{completedCount}}</view>
+        <view class="stat-label">已完成</view>
+      </view>
+    </view>
+
+    <view class="invite-section">
+      <view class="invite-title">🎯 邀请好友来吵</view>
+      <button class="btn-primary" bindtap="generateInvite">生成邀请码</button>
+    </view>
+
+    <view wx:if="{{inviteCode}}" class="invite-code">
+      <view class="code-label">邀请码</view>
+      <view class="code-value">{{inviteCode}}</view>
+      <button size="mini" bindtap="copyCode">复制</button>
+    </view>
+  </block>
+</view>

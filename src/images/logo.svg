@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- 背景圆形 -->
+  <circle cx="256" cy="256" r="240" fill="#8B0000"/>
+  
+  <!-- 手掌/停止手势 -->
+  <g transform="translate(106, 80) scale(0.75)">
+    <path d="M150 50 L150 200 Q150 220 170 220 L170 100 Q170 80 190 80 L190 180 Q190 200 210 200 L210 120 Q210 100 230 120 L230 180 Q230 200 250 200 L250 150 Q250 130 270 150 L270 80 Q270 60 290 80 L290 200 Q290 220 310 200 L310 50 Q310 30 290 50 L150 50" fill="#F5DEB3"/>
+    <circle cx="170" cy="50" r="25" fill="#F5DEB3"/>
+    <circle cx="230" cy="50" r="25" fill="#F5DEB3"/>
+    <circle cx="290" cy="50" r="25" fill="#F5DEB3"/>
+  </g>
+  
+  <!-- 嘴巴（被封住） -->
+  <rect x="186" y="360" width="140" height="50" rx="25" fill="#333"/>
+  <line x1="200" y1="365" x2="200" y2="405" stroke="#666" stroke-width="6" stroke-linecap="round"/>
+  <line x1="230" y1="365" x2="230" y2="405" stroke="#666" stroke-width="6" stroke-linecap="round"/>
+  <line x1="260" y1="365" x2="260" y2="405" stroke="#666" stroke-width="6" stroke-linecap="round"/>
+  <line x1="290" y1="365" x2="290" y2="405" stroke="#666" stroke-width="6" stroke-linecap="round"/>
+  <line x1="312" y1="365" x2="312" y2="405" stroke="#666" stroke-width="6" stroke-linecap="round"/>
+  
+  <!-- 文字 -->
+  <text x="256" y="470" text-anchor="middle" font-family="Arial, sans-serif" font-size="42" font-weight="bold" fill="#D4AF37">莫吵了</text>
+</svg>
