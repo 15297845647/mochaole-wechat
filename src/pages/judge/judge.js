@@ -16,19 +16,14 @@ Page({
     history: [],
     avatars: ['⚖️', '🔥', '🕊️', '📊', '😄', '👑', '🎭', '💪'],
     selectedAvatar: '⚖️',
-    result: null
+    result: null,
+    isWatching: false
   },
 
   onLoad: function(options) {
     this.loadCurrentJudge();
     this.loadHistory();
-    
-    // 根据参数跳转到对应页面
-    if (options.mode === 'judge') {
-      this.goToJudge();
-    } else if (options.mode === 'history') {
-      this.goToHistory();
-    }
+    this.loadWatchingDebate();
   },
 
   loadCurrentJudge: function() {
@@ -67,6 +62,10 @@ Page({
     this.setData({ page: 'history' });
   },
 
+  goToWatch: function() {
+    this.setData({ page: 'watch' });
+  },
+
   // 模式选择
   selectMode: function(e) {
     this.setData({ mode: e.currentTarget.dataset.mode });
@@ -83,6 +82,7 @@ Page({
 
   // 开始对喷
   startDebate: function() {
+    var debateId = 'debate_' + Date.now();
     var messages = [{
       id: 0,
       sender: 'system',
@@ -93,8 +93,23 @@ Page({
       messages: messages,
       partyAEnded: false,
       partyBEnded: false,
-      inputText: ''
+      inputText: '',
+      debateId: debateId
     });
+    
+    // 保存到实时观看的列表
+    this.saveToWatching(debateId);
+  },
+
+  saveToWatching: function(debateId) {
+    var watching = wx.getStorageSync('watching_debates') || [];
+    watching.push({
+      id: debateId,
+      date: new Date().toISOString(),
+      messages: this.data.messages,
+      status: 'ongoing'
+    });
+    wx.setStorageSync('watching_debates', watching);
   },
 
   getStyleName: function(style) {
@@ -129,6 +144,9 @@ Page({
       scrollIntoView: 'bottom'
     });
 
+    // 更新到实时观看
+    this.updateWatching(this.data.debateId, messages);
+
     var that = this;
     var replies = [
       '你这个人怎么这样？',
@@ -151,7 +169,20 @@ Page({
         messages: newMessages,
         scrollIntoView: 'bottom'
       });
+      // 更新到实时观看
+      that.updateWatching(that.data.debateId, newMessages);
     }, 1000 + Math.random() * 1000);
+  },
+
+  updateWatching: function(debateId, messages) {
+    var watching = wx.getStorageSync('watching_debates') || [];
+    watching = watching.map(function(item) {
+      if (item.id === debateId) {
+        item.messages = messages;
+      }
+      return item;
+    });
+    wx.setStorageSync('watching_debates', watching);
   },
 
   // 结束
@@ -168,6 +199,8 @@ Page({
       scrollIntoView: 'bottom'
     });
 
+    this.updateWatching(this.data.debateId, messages);
+
     var that = this;
     setTimeout(function() {
       var newMessages = that.data.messages.concat([{
@@ -181,6 +214,8 @@ Page({
         partyBEnded: true,
         scrollIntoView: 'bottom'
       });
+      
+      that.updateWatching(that.data.debateId, newMessages);
       
       setTimeout(function() {
         that.showJudgment();
@@ -200,6 +235,8 @@ Page({
       partyAEnded: false,
       scrollIntoView: 'bottom'
     });
+    
+    this.updateWatching(this.data.debateId, messages);
   },
 
   // 判决结果
@@ -224,6 +261,15 @@ Page({
       var reason = styles[that.data.style] + ' ' + 
         (winner === '甲方' ? '甲方在论证逻辑上更加清晰，论据充分。' : '乙方表现更理性，分析问题更全面。');
 
+      // 随机事件
+      var randomEvents = [
+        '突然，窗外传来一声巨响，双方都愣了一下...',
+        '这时，邻居敲门来投诉，你们不得不停下来...',
+        '突然手机没电了，场面一度尴尬...',
+        '就在这时，群主出来了，说了一句...'
+      ];
+      var randomEvent = randomEvents[Math.floor(Math.random() * randomEvents.length)];
+
       var result = {
         winner: winner,
         reason: reason,
@@ -235,24 +281,73 @@ Page({
           { label: '辩论技巧', value: 55 + Math.floor(Math.random() * 30), score: 'medium' },
           { label: '双赢可能', value: 40 + Math.floor(Math.random() * 30), score: 'poor' }
         ],
-        highlight: winner === '甲方' ? '甲方：其实我们没必要吵' : '乙方：好吧，你说得对'
+        highlight: winner === '甲方' ? '甲方：其实我们没必要吵' : '乙方：好吧，你说得对',
+        randomEvent: randomEvent
       };
 
+      var finalMessages = that.data.messages.concat([{
+        id: Date.now() + 2,
+        sender: 'system',
+        content: '📢 ' + randomEvent
+      }, {
+        id: Date.now() + 3,
+        sender: 'result',
+        content: '【判决结果】胜者: ' + winner
+      }]);
+
       that.setData({
+        messages: finalMessages,
         page: 'result',
-        result: result
+        result: result,
+        scrollIntoView: 'bottom'
       });
 
       // 保存历史
       var history = wx.getStorageSync('debate_history') || [];
       history.unshift({
-        id: 'debate_' + Date.now(),
+        id: that.data.debateId,
         date: new Date().toISOString(),
         winner: winner,
-        reason: reason
+        reason: reason,
+        messageCount: that.data.messages.length
       });
       wx.setStorageSync('debate_history', history);
+      
+      // 从实时观看中移除
+      that.removeFromWatching(that.data.debateId);
     }, 1500);
+  },
+
+  removeFromWatching: function(debateId) {
+    var watching = wx.getStorageSync('watching_debates') || [];
+    watching = watching.filter(function(item) {
+      return item.id !== debateId;
+    });
+    wx.setStorageSync('watching_debates', watching);
+  },
+
+  // 分享
+  onShareAppMessage: function() {
+    return {
+      title: '莫吵了 - 让你的架白吵',
+      path: '/pages/index/index'
+    };
+  },
+
+  shareResult: function() {
+    var that = this;
+    wx.showModal({
+      title: '分享判决',
+      content: '判决结果已生成，快分享给朋友吧！',
+      confirmText: '分享',
+      success: function(res) {
+        if (res.confirm) {
+          wx.showShareMenu({
+            withShareTicket: true
+          });
+        }
+      }
+    });
   },
 
   // 判官注册
@@ -295,6 +390,65 @@ Page({
         currentCases: []
       });
     }, 1500);
+  },
+
+  // 加载实时观看的辩论
+  loadWatchingDebate: function() {
+    var watching = wx.getStorageSync('watching_debates') || [];
+    // 过滤出正在进行的
+    var ongoing = watching.filter(function(item) {
+      return item.status === 'ongoing';
+    });
+    this.setData({ watchingDebates: ongoing });
+  },
+
+  // 实时观看页面
+  watchDebate: function(e) {
+    var debateId = e.currentTarget.dataset.id;
+    var watching = wx.getStorageSync('watching_debates') || [];
+    var debate = watching.find(function(item) {
+      return item.id === debateId;
+    });
+    
+    if (debate) {
+      this.setData({
+        page: 'watching',
+        currentWatching: debate
+      });
+    }
+  },
+
+  // 观看时发送建议
+  sendSuggestion: function() {
+    if (!this.data.suggestionText) return;
+    
+    var messages = this.data.currentWatching.messages.concat([{
+      id: Date.now(),
+      sender: 'judge',
+      content: '【判官建议】' + this.data.suggestionText
+    }]);
+    
+    this.setData({
+      'currentWatching.messages': messages,
+      suggestionText: ''
+    });
+    
+    // 更新存储
+    var watching = wx.getStorageSync('watching_debates') || [];
+    watching = watching.map(function(item) {
+      if (item.id === that.data.currentWatching.id) {
+        item.messages = messages;
+      }
+      return item;
+    });
+    wx.setStorageSync('watching_debates', watching);
+    
+    wx.showToast({ title: '建议已发送', icon: 'success' });
+  },
+
+  // 调整判决
+  adjustJudgment: function() {
+    this.setData({ showAdjust: true });
   },
 
   // 邀请码

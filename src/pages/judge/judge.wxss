@@ -78,6 +78,15 @@
   margin-top: 8px;
 }
 
+.third-btn {
+  background: #333;
+  border-radius: 16px;
+  padding: 16px;
+  text-align: center;
+  margin-top: 16px;
+  color: #888;
+}
+
 /* 通用 */
 .page-title {
   font-size: 24px;
@@ -103,11 +112,25 @@
 .btn-secondary {
   width: 100%;
   height: 44px;
-  background: #333;
-  border: 1px solid #444;
+  background: #fff;
+  border: none;
   border-radius: 22px;
-  color: #fff;
+  color: #C41E3A;
   font-size: 15px;
+  font-weight: 600;
+  margin-top: 12px;
+}
+
+.btn-share {
+  width: 100%;
+  height: 50px;
+  background: #4CAF50;
+  border: none;
+  border-radius: 25px;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 50px;
   margin-top: 12px;
 }
 
@@ -143,10 +166,6 @@
 }
 
 /* 风格选择 */
-.style-list {
-  
-}
-
 .style-card {
   background: #333;
   border-radius: 12px;
@@ -177,7 +196,7 @@
 
 /* 聊天 */
 .chat-area {
-  height: 60vh;
+  height: 55vh;
   padding: 16px;
 }
 
@@ -202,6 +221,16 @@
 .message-system .bubble {
   background: transparent;
   color: #888;
+  font-size: 13px;
+}
+
+.message-judge {
+  justify-content: center;
+}
+
+.message-judge .bubble {
+  background: #D4AF37;
+  color: #1A1A1A;
   font-size: 13px;
 }
 
@@ -305,9 +334,110 @@
   color: #fff;
 }
 
+/* 实时观战 */
+.watch-list {
+  
+}
+
+.watch-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #333;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 12px;
+}
+
+.watch-info {
+  
+}
+
+.watch-time {
+  font-size: 14px;
+  color: #fff;
+}
+
+.watch-count {
+  font-size: 12px;
+  color: #666;
+  margin-top: 4px;
+}
+
+.watch-arrow {
+  color: #D4AF37;
+  font-size: 20px;
+}
+
+.watch-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.back-btn {
+  background: #333;
+  border: none;
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.suggestion-area {
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  background: #252525;
+  gap: 12px;
+}
+
+.suggestion-input {
+  flex: 1;
+  height: 36px;
+  background: #333;
+  border-radius: 18px;
+  padding: 0 14px;
+  color: #fff;
+  font-size: 14px;
+}
+
+.suggestion-btn {
+  width: 70px;
+  height: 36px;
+  background: #D4AF37;
+  border: none;
+  border-radius: 18px;
+  color: #1A1A1A;
+  font-size: 13px;
+  font-weight: 600;
+}
+
 /* 判决结果 */
 .result-page {
   padding: 20px;
+}
+
+.random-event {
+  background: linear-gradient(135deg, #333, #1A1A1A);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 16px;
+  border-left: 4px solid #D4AF37;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.event-icon {
+  font-size: 20px;
+}
+
+.event-text {
+  font-size: 14px;
+  color: #ccc;
+  line-height: 1.5;
 }
 
 .result-title {
@@ -356,7 +486,7 @@
 .score-item {
   display: flex;
   align-items: center;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
 }
 
 .score-label {
@@ -370,6 +500,7 @@
   height: 8px;
   background: #444;
   border-radius: 4px;
+  margin-right: 8px;
 }
 
 .score-fill {
@@ -387,6 +518,13 @@
 
 .score-fill.poor {
   background: #F44336;
+}
+
+.score-value {
+  font-size: 12px;
+  color: #666;
+  width: 40px;
+  text-align: right;
 }
 
 .reason-card {
@@ -500,6 +638,19 @@
   font-family: monospace;
 }
 
+.menu-list {
+  margin-bottom: 20px;
+}
+
+.menu-item {
+  background: #333;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 12px;
+  color: #fff;
+  font-size: 15px;
+}
+
 /* 历史记录 */
 .history-list {
   
@@ -518,10 +669,17 @@
   color: #4CAF50;
 }
 
+.history-reason {
+  font-size: 13px;
+  color: #ccc;
+  margin-top: 8px;
+  line-height: 1.4;
+}
+
 .history-date {
   font-size: 12px;
   color: #666;
-  margin-top: 4px;
+  margin-top: 8px;
 }
 
 .empty {

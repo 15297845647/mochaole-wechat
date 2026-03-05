@@ -18,10 +18,14 @@
         <text class="sub-btn-icon">🧑‍⚖️</text>
         <text class="sub-btn-text">判官入口</text>
       </view>
-      <view class="sub-btn" bindtap="goToHistory">
-        <text class="sub-btn-icon">📜</text>
-        <text class="sub-btn-text">历史记录</text>
+      <view class="sub-btn" bindtap="goToWatch">
+        <text class="sub-btn-icon">👁️</text>
+        <text class="sub-btn-text">实时观战</text>
       </view>
+    </view>
+
+    <view class="third-btn" bindtap="goToHistory">
+      <text>📜 历史记录</text>
     </view>
   </view>
 
@@ -98,6 +102,9 @@
         <view class="message message-system" wx:if="{{item.sender === 'system'}}">
           <view class="bubble system">{{item.content}}</view>
         </view>
+        <view class="message message-judge" wx:if="{{item.sender === 'judge'}}">
+          <view class="bubble judge">🧑‍⚖️ {{item.content}}</view>
+        </view>
       </block>
       <view id="bottom"></view>
     </scroll-view>
@@ -123,9 +130,63 @@
     </view>
   </view>
 
+  <!-- 实时观战 -->
+  <view wx:if="{{page === 'watch'}}">
+    <view class="page-title">实时观战</view>
+    
+    <view wx:if="{{!watchingDebates || watchingDebates.length === 0}}" class="empty">
+      <text>暂无正在进行的辩论</text>
+    </view>
+
+    <view class="watch-list" wx:if="{{watchingDebates && watchingDebates.length > 0}}">
+      <view class="watch-item" wx:for="{{watchingDebates}}" wx:key="id" bindtap="watchDebate" data-id="{{item.id}}">
+        <view class="watch-info">
+          <view class="watch-time">{{item.date}}</view>
+          <view class="watch-count">{{item.messages.length}} 条消息</view>
+        </view>
+        <view class="watch-arrow">→</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 观看中 -->
+  <view wx:if="{{page === 'watching'}}">
+    <view class="watch-header">
+      <button class="back-btn" bindtap="goToWatch">← 返回</button>
+      <text>实时观战</text>
+    </view>
+    
+    <scroll-view class="chat-area" scroll-y="true">
+      <block wx:for="{{currentWatching.messages}}" wx:key="id">
+        <view class="message message-a" wx:if="{{item.sender === 'partyA'}}">
+          <view class="avatar">A</view>
+          <view class="bubble">{{item.content}}</view>
+        </view>
+        <view class="message message-b" wx:if="{{item.sender === 'partyB'}}">
+          <view class="bubble">{{item.content}}</view>
+          <view class="avatar">B</view>
+        </view>
+        <view class="message message-system" wx:if="{{item.sender === 'system' || item.sender === 'judge'}}">
+          <view class="bubble system">{{item.content}}</view>
+        </view>
+      </block>
+    </scroll-view>
+
+    <view class="suggestion-area">
+      <input class="suggestion-input" placeholder="发送判官建议..." bindinput="onSuggestionInput" value="{{suggestionText}}"/>
+      <button class="suggestion-btn" bindtap="sendSuggestion">发送</button>
+    </view>
+  </view>
+
   <!-- 判决结果 -->
   <view wx:if="{{page === 'result'}}" class="result-page">
     <view class="result-title">🧑‍⚖️ 判决结果</view>
+    
+    <!-- 随机事件 -->
+    <view class="random-event" wx:if="{{result.randomEvent}}">
+      <view class="event-icon">📢</view>
+      <view class="event-text">{{result.randomEvent}}</view>
+    </view>
     
     <view class="winner-card">
       <view class="winner-label">胜者</view>
@@ -139,6 +200,7 @@
         <view class="score-bar">
           <view class="score-fill {{item.score}}" style="width: {{item.value}}%"></view>
         </view>
+        <view class="score-value">{{item.value}}分</view>
       </view>
     </view>
 
@@ -152,6 +214,7 @@
       <view class="highlight-content">{{result.highlight}}</view>
     </view>
 
+    <button class="btn-share" bindtap="shareResult">📤 分享判决</button>
     <button class="btn-primary" bindtap="backToHome">返回首页</button>
   </view>
 
@@ -182,6 +245,12 @@
       <view wx:if="{{inviteCode}}" class="invite-code">{{inviteCode}}</view>
     </view>
 
+    <view class="menu-list">
+      <view class="menu-item" bindtap="goToWatch">
+        <text>👁️ 实时观战</text>
+      </view>
+    </view>
+
     <button class="btn-primary" bindtap="backToHome">返回首页</button>
   </view>
 
@@ -196,6 +265,7 @@
     <view class="history-list">
       <view class="history-item" wx:for="{{history}}" wx:key="id">
         <view class="history-winner">{{item.winner}}</view>
+        <view class="history-reason">{{item.reason}}</view>
         <view class="history-date">{{item.date}}</view>
       </view>
     </view>
