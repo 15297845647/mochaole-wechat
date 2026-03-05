@@ -1,23 +1,18 @@
-const app = getApp();
-
 Page({
-  data: {
-    
-  },
-
-  startDebate() {
+  startDebate: function() {
     wx.navigateTo({
       url: '/pages/judge/judge?mode=debate'
     });
   },
 
-  becomeJudge() {
-    wx.navigateTo({
-      url: '/pages/judge/judge?mode=register'
+  becomeJudge: function() {
+    wx.showToast({
+      title: '功能开发中',
+      icon: 'none'
     });
   },
 
-  viewHistory() {
+  viewHistory: function() {
     wx.showToast({
       title: '功能开发中',
       icon: 'none'
