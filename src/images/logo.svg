@@ -9,11 +9,11 @@
   <rect width="512" height="512" rx="80" fill="url(#bg)"/>
   
   <!-- 背景装饰圆形 -->
-  <circle cx="256" cy="280" r="180" fill="none" stroke="#C41E3A" stroke-width="3" opacity="0.2"/>
-  <circle cx="256" cy="280" r="140" fill="none" stroke="#D4AF37" stroke-width="2" opacity="0.3"/>
+  <circle cx="256" cy="270" r="180" fill="none" stroke="#C41E3A" stroke-width="3" opacity="0.2"/>
+  <circle cx="256" cy="270" r="140" fill="none" stroke="#D4AF37" stroke-width="2" opacity="0.3"/>
   
-  <!-- 左侧人物 - 居中 -->
-  <g transform="translate(100, 170)">
+  <!-- 左侧人物 -->
+  <g transform="translate(80, 180)">
     <!-- 身体 -->
     <rect x="10" y="80" width="60" height="90" rx="15" fill="#E74C3C"/>
     <rect x="10" y="80" width="60" height="30" rx="15" fill="#C0392B"/>
@@ -30,7 +30,7 @@
     <!-- 眉毛 - 生气 -->
     <line x1="24" y1="40" x2="36" y2="38" stroke="#2C3E50" stroke-width="2"/>
     <line x1="44" y1="38" x2="56" y2="40" stroke="#2C3E50" stroke-width="2"/>
-    <!-- 嘴巴 - 吵架 -->
+    <!-- 嘴巴 -->
     <path d="M30 62 Q40 58 50 62" stroke="#C0392B" stroke-width="2" fill="none"/>
     <!-- 手臂 -->
     <rect x="-15" y="85" width="20" height="50" rx="8" fill="#FFE4C4"/>
@@ -39,12 +39,11 @@
     <line x1="90" y1="100" x2="140" y2="60" stroke="#F39C12" stroke-width="8" stroke-linecap="round"/>
     <rect x="85" y="95" width="12" height="20" rx="2" fill="#D4AF37"/>
     <rect x="135" y="55" width="8" height="15" rx="2" fill="#D4AF37"/>
-    <!-- 剑柄 -->
     <circle cx="88" cy="108" r="6" fill="#D4AF37"/>
   </g>
   
-  <!-- 右侧人物 - 居中 -->
-  <g transform="translate(260, 170)">
+  <!-- 右侧人物 -->
+  <g transform="translate(290, 180)">
     <!-- 身体 -->
     <rect x="10" y="80" width="60" height="90" rx="15" fill="#3498DB"/>
     <rect x="10" y="80" width="60" height="30" rx="15" fill="#2980B9"/>
@@ -58,24 +57,23 @@
     <!-- 眼睛 -->
     <circle cx="30" cy="48" r="4" fill="#2C3E50"/>
     <circle cx="50" cy="48" r="4" fill="#2C3E50"/>
-    <!-- 眉毛 - 生气 -->
+    <!-- 眉毛 -->
     <line x1="24" y1="40" x2="36" y2="38" stroke="#2C3E50" stroke-width="2"/>
     <line x1="44" y1="38" x2="56" y2="40" stroke="#2C3E50" stroke-width="2"/>
-    <!-- 嘴巴 - 吵架 -->
+    <!-- 嘴巴 -->
     <path d="M30 62 Q40 58 50 62" stroke="#2980B9" stroke-width="2" fill="none"/>
     <!-- 手臂 -->
     <rect x="-15" y="85" width="20" height="50" rx="8" fill="#FFE4C4"/>
     <rect x="75" y="85" width="20" height="50" rx="8" fill="#FFE4C4"/>
-    <!-- 剑 - 反方向 -->
+    <!-- 剑 -->
     <line x1="-10" y1="100" x2="-60" y2="60" stroke="#F39C12" stroke-width="8" stroke-linecap="round"/>
     <rect x="-15" y="95" width="12" height="20" rx="2" fill="#D4AF37"/>
     <rect x="-65" y="55" width="8" height="15" rx="2" fill="#D4AF37"/>
-    <!-- 剑柄 -->
     <circle cx="-12" cy="108" r="6" fill="#D4AF37"/>
   </g>
   
   <!-- 中间碰撞火花 -->
-  <g transform="translate(256, 200)">
+  <g transform="translate(256, 220)">
     <circle cx="0" cy="0" r="8" fill="#FFD700"/>
     <circle cx="-12" cy="-8" r="4" fill="#F39C12"/>
     <circle cx="12" cy="-8" r="4" fill="#F39C12"/>
@@ -84,15 +82,15 @@
   </g>
   
   <!-- 对话气泡 - 甲方 -->
-  <g transform="translate(60, 90)">
+  <g transform="translate(50, 100)">
     <path d="M0 0 L60 0 Q70 0 70 10 L70 40 Q70 50 60 50 L20 50 L10 60 L10 50 L0 50 Q-10 50 -10 40 L-10 10 Q-10 0 0 0" fill="#fff" opacity="0.95" stroke="#E74C3C" stroke-width="2"/>
-    <text x="30" y="30" text-anchor="middle" font-family="Arial" font-size="18" fill="#E74C3C" font-weight="bold">!!!</text>
+    <text x="30" y="32" text-anchor="middle" font-family="Arial" font-size="18" fill="#E74C3C" font-weight="bold">!!!</text>
   </g>
   
   <!-- 对话气泡 - 乙方 -->
-  <g transform="translate(380, 90)">
+  <g transform="translate(390, 100)">
     <path d="M0 0 L60 0 Q70 0 70 10 L70 40 Q70 50 60 50 L10 50 L0 40 L0 50 Q-10 50 -10 40 L-10 10 Q-10 0 0 0" fill="#fff" opacity="0.95" stroke="#3498DB" stroke-width="2" transform="scale(-1,1) translate(-70,0)"/>
-    <text x="30" y="30" text-anchor="middle" font-family="Arial" font-size="18" fill="#3498DB" font-weight="bold">???</text>
+    <text x="30" y="32" text-anchor="middle" font-family="Arial" font-size="18" fill="#3498DB" font-weight="bold">???</text>
   </g>
   
   <!-- 文字 -->
