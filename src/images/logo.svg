@@ -9,11 +9,11 @@
   <rect width="512" height="512" rx="80" fill="url(#bg)"/>
   
   <!-- 背景装饰圆形 -->
-  <circle cx="256" cy="250" r="180" fill="none" stroke="#C41E3A" stroke-width="2" opacity="0.3"/>
-  <circle cx="256" cy="250" r="140" fill="none" stroke="#D4AF37" stroke-width="1" opacity="0.2"/>
+  <circle cx="256" cy="280" r="180" fill="none" stroke="#C41E3A" stroke-width="2" opacity="0.3"/>
+  <circle cx="256" cy="280" r="140" fill="none" stroke="#D4AF37" stroke-width="1" opacity="0.2"/>
   
-  <!-- 左侧人物 - 丰富版 -->
-  <g transform="translate(70, 140)">
+  <!-- 左侧人物 - 居中 -->
+  <g transform="translate(100, 170)">
     <!-- 身体 -->
     <rect x="10" y="80" width="60" height="90" rx="15" fill="#E74C3C"/>
     <rect x="10" y="80" width="60" height="30" rx="15" fill="#C0392B"/>
@@ -43,8 +43,8 @@
     <circle cx="88" cy="108" r="6" fill="#D4AF37"/>
   </g>
   
-  <!-- 右侧人物 - 丰富版 -->
-  <g transform="translate(290, 140)">
+  <!-- 右侧人物 - 居中 -->
+  <g transform="translate(260, 170)">
     <!-- 身体 -->
     <rect x="10" y="80" width="60" height="90" rx="15" fill="#3498DB"/>
     <rect x="10" y="80" width="60" height="30" rx="15" fill="#2980B9"/>
@@ -75,7 +75,7 @@
   </g>
   
   <!-- 中间碰撞火花 -->
-  <g transform="translate(256, 170)">
+  <g transform="translate(256, 200)">
     <circle cx="0" cy="0" r="8" fill="#FFD700"/>
     <circle cx="-12" cy="-8" r="4" fill="#F39C12"/>
     <circle cx="12" cy="-8" r="4" fill="#F39C12"/>
@@ -84,17 +84,17 @@
   </g>
   
   <!-- 对话气泡 - 甲方 -->
-  <g transform="translate(20, 60)">
+  <g transform="translate(60, 90)">
     <path d="M0 0 L60 0 Q70 0 70 10 L70 40 Q70 50 60 50 L20 50 L10 60 L10 50 L0 50 Q-10 50 -10 40 L-10 10 Q-10 0 0 0" fill="#fff" opacity="0.9"/>
     <text x="30" y="30" text-anchor="middle" font-family="Arial" font-size="18" fill="#333">!!!</text>
   </g>
   
   <!-- 对话气泡 - 乙方 -->
-  <g transform="translate(380, 60)">
+  <g transform="translate(380, 90)">
     <path d="M0 0 L60 0 Q70 0 70 10 L70 40 Q70 50 60 50 L10 50 L0 40 L0 50 Q-10 50 -10 40 L-10 10 Q-10 0 0 0" fill="#fff" opacity="0.9" transform="scale(-1,1) translate(-70,0)"/>
     <text x="30" y="30" text-anchor="middle" font-family="Arial" font-size="18" fill="#333">???</text>
   </g>
   
   <!-- 文字 -->
-  <text x="256" y="450" text-anchor="middle" font-family="PingFang SC, Microsoft YaHei, sans-serif" font-size="48" font-weight="bold" fill="#D4AF37" letter-spacing="4">莫吵了</text>
+  <text x="256" y="470" text-anchor="middle" font-family="PingFang SC, Microsoft YaHei, sans-serif" font-size="48" font-weight="bold" fill="#D4AF37" letter-spacing="4">莫吵了</text>
 </svg>
