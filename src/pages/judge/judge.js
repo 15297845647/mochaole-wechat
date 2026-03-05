@@ -2,7 +2,11 @@ Page({
   data: {
     messages: [],
     inputText: '',
-    scrollIntoView: ''
+    scrollIntoView: '',
+    showEndConfirm: false,
+    partyAEnded: false,
+    partyBEnded: false,
+    bothAgreed: false
   },
 
   onLoad: function(options) {
@@ -16,8 +20,9 @@ Page({
       messages: [{
         id: 0,
         sender: 'system',
-        content: '欢迎来到莫吵了！开始你们的争吵，点击下方按钮结束并获取判官裁决。'
-      }]
+        content: '欢迎来到莫吵了！双方可随时点击"我要结束"，双方都同意后将显示判官裁决。'
+      }],
+      showEndConfirm: true
     });
   },
 
@@ -67,16 +72,60 @@ Page({
     }, 1000 + Math.random() * 1000);
   },
 
-  endDebate: function() {
+  // 甲方请求结束
+  requestEnd: function() {
+    var messages = this.data.messages.concat([{
+      id: Date.now(),
+      sender: 'partyA',
+      content: '【我提议结束这场争吵】'
+    }]);
+
+    this.setData({
+      messages: messages,
+      partyAEnded: true,
+      scrollIntoView: 'bottom'
+    });
+
     var that = this;
-    wx.showModal({
-      title: '确认结束',
-      content: '确定要结束争吵并获取判官裁决吗？',
-      success: function(res) {
-        if (res.confirm) {
-          that.showJudgment();
-        }
-      }
+    // 模拟乙方思考后同意
+    setTimeout(function() {
+      var newMessages = that.data.messages.concat([{
+        id: Date.now() + 1,
+        sender: 'partyB',
+        content: '【我同意结束】'
+      }]);
+      
+      that.setData({
+        messages: newMessages,
+        partyBEnded: true,
+        bothAgreed: true,
+        scrollIntoView: 'bottom'
+      });
+      
+      // 显示判决结果
+      setTimeout(function() {
+        that.showJudgment();
+      }, 1000);
+    }, 2000);
+  },
+
+  // 乙方同意结束（模拟）
+  confirmEnd: function() {
+    // 这个按钮主要是交互反馈，实际逻辑在 requestEnd 模拟
+  },
+
+  // 取消结束
+  cancelEnd: function() {
+    var messages = this.data.messages.concat([{
+      id: Date.now(),
+      sender: 'partyB',
+      content: '【我不同意结束】'
+    }]);
+
+    this.setData({
+      messages: messages,
+      partyAEnded: false,
+      scrollIntoView: 'bottom'
     });
   },
 

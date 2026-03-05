@@ -23,12 +23,29 @@
     <view id="bottom"></view>
   </scroll-view>
 
-  <view class="input-area">
+  <view class="input-area" wx:if="{{!showEndConfirm}}">
     <input class="chat-input" placeholder="输入你的观点..." value="{{inputText}}" bindinput="onInput" bindconfirm="sendMessage"/>
     <button class="send-btn" bindtap="sendMessage">发送</button>
   </view>
 
-  <view class="end-btn" bindtap="endDebate">
-    <text>结束争吵 👉 判官裁决</text>
+  <!-- 结束确认面板 -->
+  <view class="end-panel" wx:if="{{showEndConfirm}}">
+    <view class="end-status" wx:if="{{!bothAgreed}}">
+      <view class="end-status-text" wx:if="{{!partyAEnded}}">
+        你已选择结束，等待对方同意...
+      </view>
+      <view class="end-status-text waiting" wx:if="{{partyAEnded && !partyBEnded}}">
+        ⏳ 等待对方同意结束...
+      </view>
+    </view>
+    <button class="end-btn" bindtap="requestEnd" wx:if="{{!partyAEnded && !bothAgreed}}">
+      我要结束
+    </button>
+    <button class="end-btn agreed" bindtap="confirmEnd" wx:if="{{partyAEnded && !partyBEnded}}">
+      同意结束
+    </button>
+    <button class="end-btn cancel" bindtap="cancelEnd" wx:if="{{partyAEnded && !bothAgreed}}">
+      取消
+    </button>
   </view>
 </view>
