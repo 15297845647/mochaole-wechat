@@ -40,7 +40,7 @@
   },
   "compileType": "miniprogram",
   "libVersion": "3.3.4",
-  "appid": "YOUR_APPID_HERE",
+  "appid": "",
   "projectname": "chaoji-panguan",
   "debugOptions": {
     "hidedInDevtools": []
