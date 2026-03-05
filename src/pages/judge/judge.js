@@ -28,12 +28,13 @@ Page({
     this.loadWatchingDebate();
     
     // 根据参数跳转到对应页面
-    if (options.mode === 'judge') {
-      this.goToJudge();
-    } else if (options.mode === 'history') {
-      this.goToHistory();
-    } else if (options.mode === 'watch') {
-      this.goToWatch();
+    var mode = options && options.mode;
+    if (mode === 'judge') {
+      this.setData({ page: 'judge' });
+    } else if (mode === 'history') {
+      this.setData({ page: 'history' });
+    } else if (mode === 'watch') {
+      this.setData({ page: 'watch' });
     } else {
       // 默认显示首页
       this.setData({ page: 'index' });
