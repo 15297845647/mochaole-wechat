@@ -1,98 +1,143 @@
 <view class="container">
-  <!-- 模式选择 -->
-  <block wx:if="{{mode === 'select'}}">
-    <view class="page-title">选择模式</view>
+  <!-- 聊天记录区域 -->
+  <scroll-view class="chat-area" scroll-y="true" scroll-into-view="{{scrollIntoView}}">
+    <block wx:for="{{messages}}" wx:key="id">
+      <!-- 甲方消息 -->
+      <view class="message message-a" wx:if="{{item.sender === 'partyA'}}">
+        <view class="avatar">A</view>
+        <view class="bubble">{{item.content}}</view>
+      </view>
+      <!-- 乙方消息 -->
+      <view class="message message-b" wx:if="{{item.sender === 'partyB'}}">
+        <view class="bubble">{{item.content}}</view>
+        <view class="avatar">B</view>
+      </view>
+    </block>
     
-    <view class="mode-card" bindtap="selectMode" data-mode="anonymous">
-      <view class="mode-icon">🎭</view>
-      <view class="mode-info">
-        <view class="mode-name">匿名模式</view>
-        <view class="mode-desc">双方匿名，只看论点</view>
-      </view>
+    <!-- 等待对方回复 -->
+    <view class="waiting" wx:if="{{isWaiting}}">
+      <text>对方正在输入...</text>
     </view>
-
-    <view class="mode-card" bindtap="selectMode" data-mode="realname">
-      <view class="mode-icon">📛</view>
-      <view class="mode-info">
-        <view class="mode-name">实名模式</view>
-        <view class="mode-desc">显示双方昵称</view>
-      </view>
-    </view>
-  </block>
-
-  <!-- 吵架输入 -->
-  <block wx:if="{{mode === 'debate' || mode === 'input'}}">
-    <view class="page-title">开始对喷</view>
     
-    <view class="input-group">
-      <view class="input-label">甲方（你）</view>
-      <textarea class="input-field" placeholder="输入你的观点..." bindinput="onInputA" value="{{partyA}}"/>
-    </view>
+    <view id="bottom"></view>
+  </scroll-view>
 
-    <view class="vs">VS</view>
-
-    <view class="input-group">
-      <view class="input-label">乙方</view>
-      <textarea class="input-field" placeholder="输入对方的观点..." bindinput="onInputB" value="{{partyB}}"/>
-    </view>
-
-    <button class="btn-primary" bindtap="submitDebate">提交判决</button>
-  </block>
-
-  <!-- 判官注册 -->
-  <block wx:if="{{mode === 'register'}}">
-    <view class="page-title">成为判官</view>
-    
-    <view class="form-group">
-      <view class="form-label">昵称</view>
-      <input class="input-field" placeholder="输入判官昵称" bindinput="onNameInput"/>
-    </view>
-
-    <view class="form-group">
-      <view class="form-label">头像</view>
-      <view class="avatar-selector">
-        <view class="avatar-option" wx:for="{{avatarOptions}}" wx:key="*this" bindtap="selectAvatar" data-avatar="{{item}}" style="{{judgeAvatar === item ? 'border-color: #D4AF37' : ''}}">
-          {{item}}
-        </view>
-      </view>
-    </view>
-
-    <view class="form-group">
-      <view class="form-label">简介</view>
-      <textarea class="input-field" placeholder="一句话介绍自己" bindinput="onBioInput"/>
-    </view>
-
-    <button class="btn-primary" bindtap="registerJudge">注册判官</button>
-  </block>
-
-  <!-- 判官 Dashboard -->
-  <block wx:if="{{mode === 'dashboard'}}">
-    <view class="page-title">判官 Dashboard</view>
-    
-    <view class="stats-grid">
-      <view class="stat-card">
-        <view class="stat-num">{{pendingCount}}</view>
-        <view class="stat-label">待裁决</view>
-      </view>
-      <view class="stat-card">
-        <view class="stat-num">{{judgingCount}}</view>
-        <view class="stat-label">裁决中</view>
-      </view>
-      <view class="stat-card">
-        <view class="stat-num">{{completedCount}}</view>
-        <view class="stat-label">已完成</view>
-      </view>
-    </view>
-
-    <view class="invite-section">
-      <view class="invite-title">🎯 邀请好友来吵</view>
-      <button class="btn-primary" bindtap="generateInvite">生成邀请码</button>
-    </view>
-
-    <view wx:if="{{inviteCode}}" class="invite-code">
-      <view class="code-label">邀请码</view>
-      <view class="code-value">{{inviteCode}}</view>
-      <button size="mini" bindtap="copyCode">复制</button>
-    </view>
-  </block>
+  <!-- 输入区域 -->
+  <view class="input-area">
+    <input class="chat-input" placeholder="输入你的观点..." value="{{inputText}}" bindinput="onInput" bindconfirm="sendMessage"/>
+    <button class="send-btn" bindtap="sendMessage" disabled="{{!inputText}}">发送</button>
+  </view>
 </view>
+
+<style>
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background: #1A1A1A;
+}
+
+.chat-area {
+  flex: 1;
+  padding: 16px;
+  padding-bottom: 10px;
+}
+
+.message {
+  display: flex;
+  margin-bottom: 16px;
+  align-items: flex-start;
+}
+
+.message-a {
+  justify-content: flex-start;
+}
+
+.message-b {
+  justify-content: flex-end;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.message-a .avatar {
+  background: #E74C3C;
+  margin-right: 10px;
+}
+
+.message-b .avatar {
+  background: #3498DB;
+  margin-left: 10px;
+}
+
+.bubble {
+  max-width: 70%;
+  padding: 12px 16px;
+  border-radius: 16px;
+  font-size: 15px;
+  line-height: 1.5;
+  word-break: break-all;
+}
+
+.message-a .bubble {
+  background: #333;
+  border-top-left-radius: 4px;
+}
+
+.message-b .bubble {
+  background: #8B0000;
+  border-top-right-radius: 4px;
+}
+
+.waiting {
+  text-align: center;
+  color: #666;
+  font-size: 13px;
+  padding: 10px;
+}
+
+.input-area {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  background: #252525;
+  border-top: 1px solid #333;
+}
+
+.chat-input {
+  flex: 1;
+  height: 40px;
+  background: #333;
+  border-radius: 20px;
+  padding: 0 16px;
+  color: #fff;
+  font-size: 15px;
+}
+
+.send-btn {
+  width: 70px;
+  height: 40px;
+  background: #D4AF37;
+  border: none;
+  border-radius: 20px;
+  color: #1A1A1A;
+  font-size: 15px;
+  font-weight: 600;
+  margin-left: 12px;
+  line-height: 40px;
+}
+
+.send-btn[disabled] {
+  background: #444;
+  color: #666;
+}
+</style>

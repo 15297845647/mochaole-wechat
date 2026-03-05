@@ -18,21 +18,9 @@ Page({
   },
 
   viewHistory() {
-    wx.navigateTo({
-      url: '/pages/judge/judge?mode=history'
+    wx.showToast({
+      title: '功能开发中',
+      icon: 'none'
     });
-  },
-
-  enterJudgeDashboard() {
-    const judge = app.globalData.currentJudge;
-    if (judge) {
-      wx.navigateTo({
-        url: '/pages/judge/judge?mode=dashboard'
-      });
-    } else {
-      wx.navigateTo({
-        url: '/pages/judge/judge?mode=register'
-      });
-    }
   }
 });

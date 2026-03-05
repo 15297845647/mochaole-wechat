@@ -4,25 +4,124 @@
   
   <!-- Logo 和标题 -->
   <view class="header">
-    <view class="logo">⚖️</view>
+    <image class="logo-img" src="/images/logo.png" mode="aspectFit"/>
     <view class="title">莫吵了</view>
     <view class="subtitle">让你的架白吵</view>
   </view>
 
-  <!-- 功能按钮 -->
-  <view class="buttons">
-    <button class="btn-primary" bindtap="startDebate">开始吵架</button>
-    <button class="btn-secondary" bindtap="becomeJudge">成为判官</button>
-    <button class="btn-secondary" bindtap="viewHistory">历史记录</button>
+  <!-- 主功能按钮 -->
+  <view class="main-btn" bindtap="startDebate">
+    <view class="main-btn-icon">💬</view>
+    <view class="main-btn-text">开始对喷</view>
+    <view class="main-btn-desc">两人对战，AI判官裁决</view>
   </view>
 
-  <!-- 判官入口 -->
-  <view class="judge-section" bindtap="enterJudgeDashboard">
-    <view class="judge-icon">🧑‍⚖️</view>
-    <view class="judge-text">
-      <view class="judge-title">判官入口</view>
-      <view class="judge-desc">管理你的法庭</view>
+  <!-- 次要功能 -->
+  <view class="sub-buttons">
+    <view class="sub-btn" bindtap="becomeJudge">
+      <text class="sub-btn-icon">🧑‍⚖️</text>
+      <text class="sub-btn-text">成为判官</text>
     </view>
-    <view class="arrow">→</view>
+    <view class="sub-btn" bindtap="viewHistory">
+      <text class="sub-btn-icon">📜</text>
+      <text class="sub-btn-text">历史记录</text>
+    </view>
   </view>
 </view>
+
+<style>
+.container {
+  padding: 20px;
+  min-height: 100vh;
+  background: #1A1A1A;
+  box-sizing: border-box;
+}
+
+.top-decoration {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 120px;
+  background: linear-gradient(180deg, #8B0000 0%, transparent 100%);
+  z-index: 0;
+}
+
+.header {
+  text-align: center;
+  margin-top: 40px;
+  margin-bottom: 40px;
+  position: relative;
+  z-index: 1;
+}
+
+.logo-img {
+  width: 120px;
+  height: 120px;
+  margin-bottom: 16px;
+}
+
+.title {
+  font-size: 32px;
+  font-weight: 700;
+  color: #D4AF37;
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: #666;
+}
+
+.main-btn {
+  background: linear-gradient(135deg, #8B0000, #C41E3A);
+  border-radius: 20px;
+  padding: 30px;
+  text-align: center;
+  margin-bottom: 24px;
+  border: 2px solid #D4AF37;
+}
+
+.main-btn-icon {
+  font-size: 48px;
+  margin-bottom: 12px;
+}
+
+.main-btn-text {
+  font-size: 24px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 8px;
+}
+
+.main-btn-desc {
+  font-size: 13px;
+  color: rgba(255,255,255,0.7);
+}
+
+.sub-buttons {
+  display: flex;
+  gap: 16px;
+}
+
+.sub-btn {
+  flex: 1;
+  background: #333;
+  border-radius: 16px;
+  padding: 20px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.sub-btn-icon {
+  font-size: 32px;
+  margin-bottom: 8px;
+}
+
+.sub-btn-text {
+  font-size: 14px;
+  color: #fff;
+}
+</style>
